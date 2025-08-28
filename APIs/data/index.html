@@ -1,392 +1,558 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Resolution Pro - API Testing Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        * {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      * {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, sans-serif;
+      }
+
+      .expand-animation {
+        transition: all 0.3s ease-in-out !important;
+      }
+
+      .rotate-180 {
+        transform: rotate(180deg) !important;
+      }
+
+      .fade-in {
+        animation: fadeIn 0.3s ease-in-out !important;
+      }
+
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+          transform: translateY(-10px);
         }
-        
-        .card-hover {
-            transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+        100% {
+          opacity: 1;
+          transform: translateY(0);
         }
-        
-        .card-hover:hover {
-            transform: translateY(-4px) !important;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+      }
+
+      .dropdown-menu {
+        display: none !important;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: all 0.2s ease-in-out !important;
+      }
+
+      .dropdown-menu.show {
+        display: block !important;
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+      }
+
+      .success-tick {
+        animation: tickAnimation 0.5s ease-in-out !important;
+      }
+
+      @keyframes tickAnimation {
+        0% {
+          opacity: 0;
+          transform: scale(0.3);
         }
-        
-        .expand-animation {
-            transition: all 0.3s ease-in-out !important;
+        50% {
+          transform: scale(1.1);
         }
-        
-        .rotate-180 {
-            transform: rotate(180deg) !important;
+        100% {
+          opacity: 1;
+          transform: scale(1);
         }
-        
-        .fade-in {
-            animation: fadeIn 0.3s ease-in-out !important;
+      }
+
+      .loading-spin {
+        animation: spin 1s linear infinite !important;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
         }
-        
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(-10px); }
-            100% { opacity: 1; transform: translateY(0); }
+        to {
+          transform: rotate(360deg);
         }
-        
-        .dropdown-menu {
-            display: none !important;
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: all 0.2s ease-in-out !important;
+      }
+
+      .btn-hover {
+        transition: all 0.2s ease !important;
+      }
+
+      .btn-hover:hover {
+        transform: translateY(-1px) !important;
+      }
+
+      .card-enter {
+        animation: cardEnter 0.5s ease-out forwards !important;
+      }
+
+      @keyframes cardEnter {
+        0% {
+          opacity: 0;
+          transform: translateY(20px) scale(0.95);
         }
-        
-        .dropdown-menu.show {
-            display: block !important;
-            opacity: 1 !important;
-            transform: translateY(0) !important;
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
         }
-        
-        .success-tick {
-            animation: tickAnimation 0.5s ease-in-out !important;
-        }
-        
-        @keyframes tickAnimation {
-            0% { opacity: 0; transform: scale(0.3); }
-            50% { transform: scale(1.1); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-        
-        .loading-spin {
-            animation: spin 1s linear infinite !important;
-        }
-        
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .btn-hover {
-            transition: all 0.2s ease !important;
-        }
-        
-        .btn-hover:hover {
-            transform: translateY(-1px) !important;
-        }
-        
-        .card-enter {
-            animation: cardEnter 0.5s ease-out forwards !important;
-        }
-        
-        @keyframes cardEnter {
-            0% { opacity: 0; transform: translateY(20px) scale(0.95); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        
-        /* Override Tailwind with specific styles */
-        .bg-gradient-custom {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-        }
-        
-        .shadow-custom {
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
-        }
-        
-        .border-custom {
-            border: 1px solid #e5e7eb !important;
-        }
+      }
+
+      /* Override Tailwind with specific styles */
+      .bg-gradient-custom {
+        background: linear-gradient(
+          135deg,
+          #667eea 0%,
+          #764ba2 100%
+        ) !important;
+      }
+
+      .shadow-custom {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+      }
+
+      .border-custom {
+        border: 1px solid #e5e7eb !important;
+      }
     </style>
-</head>
-<body class="bg-gray-50 min-h-screen">
+  </head>
+  <body class="bg-gray-50 min-h-screen">
     <!-- Navbar -->
     <nav class="bg-white shadow-sm border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center space-x-8">
-                    <h1 class="text-2xl font-bold text-gray-900">Resolution Pro</h1>
-                    
-                    <!-- Search Bar -->
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <span class="material-icons text-gray-400">search</span>
-                        </div>
-                        <input 
-                            type="text" 
-                            id="searchInput"
-                            placeholder="Search APIs..."
-                            class="block w-80 pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        >
-                    </div>
-                    
-                    <!-- Filter Dropdown -->
-                    <div class="relative">
-                        <button 
-                            id="filterBtn"
-                            class="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            <span class="material-icons text-sm">filter_list</span>
-                            <span id="filterText">All Types</span>
-                            <span class="material-icons text-sm transition-transform" id="filterArrow">keyboard_arrow_down</span>
-                        </button>
-                        <div id="filterDropdown" class="dropdown-menu absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-10">
-                            <div class="py-1" id="filterOptions">
-                                <a href="#" class="filter-option block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-type="all">All Types</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="flex items-center space-x-4">
-                    <!-- Pagination Info -->
-                    <div class="text-sm text-gray-600">
-                        Page <span id="currentPage">1</span> of <span id="totalPages">1</span>
-                    </div>
-                    
-                    <!-- Pagination Controls -->
-                    <div class="flex items-center space-x-2">
-                        <button id="prevBtn" class="p-2 text-gray-400 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed">
-                            <span class="material-icons">chevron_left</span>
-                        </button>
-                        <button id="nextBtn" class="p-2 text-gray-400 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed">
-                            <span class="material-icons">chevron_right</span>
-                        </button>
-                    </div>
-                    
-                    <!-- Documentation Button -->
-                    <button 
-                        id="docBtn"
-                        class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
-                    >
-                        Documentation
-                    </button>
-                </div>
+      <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center space-x-8">
+            <svg
+              width="30"
+              height="30"
+              viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <!-- Coffee mug -->
+              <path
+                d="M 25,30 
+           C 25,20 35,15 45,15 
+           H 65 
+           C 75,15 85,20 85,30 
+           V 65 
+           C 85,75 75,80 65,80 
+           H 45 
+           C 35,80 25,75 25,65 
+           Z"
+                fill="#6f4e37"
+                stroke="#5a3928"
+                stroke-width="2"
+              />
+
+              <!-- Mug handle -->
+              <path
+                d="M 85,40 
+           C 95,40 100,50 95,60 
+           C 90,65 85,60 85,50 
+           Z"
+                fill="none"
+                stroke="#5a3928"
+                stroke-width="2"
+              />
+
+              <!-- Coffee liquid -->
+              <path
+                d="M 30,35 
+           H 80 
+           V 60 
+           C 80,65 75,70 65,70 
+           H 45 
+           C 35,70 30,65 30,60 
+           Z"
+                fill="#3e2723"
+              />
+
+              <!-- Steam (3 lines) -->
+              <line
+                x1="40"
+                y1="10"
+                x2="40"
+                y2="0"
+                stroke="#cccccc"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+              <line
+                x1="55"
+                y1="8"
+                x2="55"
+                y2="-2"
+                stroke="#cccccc"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+              <line
+                x1="70"
+                y1="12"
+                x2="70"
+                y2="2"
+                stroke="#cccccc"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+            </svg>
+            <h1 class="text-2xl font-bold text-gray-900">Resolution Pro</h1>
+
+            <!-- Search Bar -->
+            <div class="relative">
+              <div
+                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+              >
+                <span class="material-icons text-gray-400">search</span>
+              </div>
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Search APIs..."
+                class="block w-80 pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+              />
             </div>
+
+            <!-- Filter Dropdown -->
+            <div class="relative">
+              <button
+                id="filterBtn"
+                class="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <span class="material-icons text-sm">filter_list</span>
+                <span id="filterText">All Types</span>
+                <span
+                  class="material-icons text-sm transition-transform"
+                  id="filterArrow"
+                  >keyboard_arrow_down</span
+                >
+              </button>
+              <div
+                id="filterDropdown"
+                class="dropdown-menu absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg z-10"
+              >
+                <div class="py-1" id="filterOptions">
+                  <a
+                    href="#"
+                    class="filter-option block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    data-type="all"
+                    >All Types</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <!-- Pagination Info -->
+            <div class="text-sm text-gray-600">
+              Page <span id="currentPage">1</span> of
+              <span id="totalPages">1</span>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="flex items-center space-x-2">
+              <button
+                id="prevBtn"
+                class="p-2 text-gray-400 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <span class="material-icons">chevron_left</span>
+              </button>
+              <button
+                id="nextBtn"
+                class="p-2 text-gray-400 hover:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <span class="material-icons">chevron_right</span>
+              </button>
+            </div>
+
+            <!-- Documentation Button -->
+            <button
+              id="docBtn"
+              class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+            >
+              Documentation
+            </button>
+          </div>
         </div>
+      </div>
     </nav>
 
     <!-- Main Content -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Loading State -->
-        <div id="loading" class="flex justify-center items-center h-64">
-            <div class="loading-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-        </div>
+    <div class="max-w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Loading State -->
+      <div id="loading" class="flex justify-center items-center h-64">
+        <div
+          class="loading-spin rounded-full h-12 w-12 border-b-2 border-blue-600"
+        ></div>
+      </div>
 
-        <!-- API Cards Container -->
-        <div id="apiContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-6 hidden">
-            <!-- Cards will be dynamically inserted here -->
-        </div>
+      <!-- API Cards Container -->
+      <div
+        id="apiContainer"
+        class="grid grid-cols-1 lg:grid-cols-3 gap-6 hidden"
+      >
+        <!-- Cards will be dynamically inserted here -->
+      </div>
 
-        <!-- No Results -->
-        <div id="noResults" class="text-center py-16 hidden">
-            <span class="material-icons text-6xl text-gray-300">search_off</span>
-            <h3 class="mt-4 text-lg font-medium text-gray-900">No APIs found</h3>
-            <p class="mt-2 text-sm text-gray-500">Try adjusting your search or filter criteria</p>
-        </div>
+      <!-- No Results -->
+      <div id="noResults" class="text-center py-16 hidden">
+        <span class="material-icons text-6xl text-gray-300">search_off</span>
+        <h3 class="mt-4 text-lg font-medium text-gray-900">No APIs found</h3>
+        <p class="mt-2 text-sm text-gray-500">
+          Try adjusting your search or filter criteria
+        </p>
+      </div>
     </div>
 
     <script>
-        class APIDashboard {
-            constructor() {
-                this.apis = [];
-                this.filteredApis = [];
-                this.currentPage = 1;
-                this.itemsPerPage = 2;
-                this.currentFilter = 'all';
-                this.searchQuery = '';
-                this.expandedCards = new Set();
-                
-                this.init();
+      class APIDashboard {
+        constructor() {
+          this.apis = [];
+          this.filteredApis = [];
+          this.currentPage = 1;
+          this.itemsPerPage = 6;
+          this.currentFilter = "all";
+          this.searchQuery = "";
+          this.expandedCards = new Set();
+
+          this.init();
+        }
+
+        async init() {
+          await this.loadData();
+          this.setupEventListeners();
+          this.populateFilters();
+          this.renderAPIs();
+        }
+
+        async loadData() {
+          try {
+            const response = await fetch("./API.json");
+            this.apis = await response.json();
+            this.filteredApis = [...this.apis];
+            document.getElementById("loading").classList.add("hidden");
+            document.getElementById("apiContainer").classList.remove("hidden");
+          } catch (error) {
+            console.error("Failed to load API data:", error);
+            this.filteredApis = [...this.apis];
+            document.getElementById("loading").classList.add("hidden");
+            document.getElementById("apiContainer").classList.remove("hidden");
+          }
+        }
+
+        setupEventListeners() {
+          // Search functionality
+          document
+            .getElementById("searchInput")
+            .addEventListener("input", (e) => {
+              this.searchQuery = e.target.value.toLowerCase();
+              this.filterAPIs();
+            });
+
+          // Filter dropdown
+          document.getElementById("filterBtn").addEventListener("click", () => {
+            const dropdown = document.getElementById("filterDropdown");
+            const arrow = document.getElementById("filterArrow");
+            dropdown.classList.toggle("show");
+            arrow.classList.toggle("rotate-180");
+          });
+
+          // Close dropdown when clicking outside
+          document.addEventListener("click", (e) => {
+            if (
+              !e.target.closest("#filterBtn") &&
+              !e.target.closest("#filterDropdown")
+            ) {
+              document
+                .getElementById("filterDropdown")
+                .classList.remove("show");
+              document
+                .getElementById("filterArrow")
+                .classList.remove("rotate-180");
             }
+          });
 
-            async init() {
-                await this.loadData();
-                this.setupEventListeners();
-                this.populateFilters();
-                this.renderAPIs();
-            }
+          // Pagination
+          document
+            .getElementById("prevBtn")
+            .addEventListener("click", () => this.goToPrevPage());
+          document
+            .getElementById("nextBtn")
+            .addEventListener("click", () => this.goToNextPage());
 
-            async loadData() {
-                try {
-                    const response = await fetch('./API.json');
-                    this.apis = await response.json();
-                    this.filteredApis = [...this.apis];
-                    document.getElementById('loading').classList.add('hidden');
-                    document.getElementById('apiContainer').classList.remove('hidden');
-                } catch (error) {
-                    console.error('Failed to load API data:', error);
-                    this.filteredApis = [...this.apis];
-                    document.getElementById('loading').classList.add('hidden');
-                    document.getElementById('apiContainer').classList.remove('hidden');
-                }
-            }
+          // Documentation button
+          document.getElementById("docBtn").addEventListener("click", () => {
+            window.location.href = "doc.html";
+          });
+        }
 
-            setupEventListeners() {
-                // Search functionality
-                document.getElementById('searchInput').addEventListener('input', (e) => {
-                    this.searchQuery = e.target.value.toLowerCase();
-                    this.filterAPIs();
-                });
+        populateFilters() {
+          const types = [...new Set(this.apis.map((api) => api.requestType))];
+          const filterOptions = document.getElementById("filterOptions");
 
-                // Filter dropdown
-                document.getElementById('filterBtn').addEventListener('click', () => {
-                    const dropdown = document.getElementById('filterDropdown');
-                    const arrow = document.getElementById('filterArrow');
-                    dropdown.classList.toggle('show');
-                    arrow.classList.toggle('rotate-180');
-                });
+          types.forEach((type) => {
+            const option = document.createElement("a");
+            option.href = "#";
+            option.className =
+              "filter-option block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100";
+            option.dataset.type = type.toLowerCase();
+            option.textContent = type;
+            option.addEventListener("click", (e) => {
+              e.preventDefault();
+              this.setFilter(type.toLowerCase());
+            });
+            filterOptions.appendChild(option);
+          });
+        }
 
-                // Close dropdown when clicking outside
-                document.addEventListener('click', (e) => {
-                    if (!e.target.closest('#filterBtn') && !e.target.closest('#filterDropdown')) {
-                        document.getElementById('filterDropdown').classList.remove('show');
-                        document.getElementById('filterArrow').classList.remove('rotate-180');
-                    }
-                });
+        setFilter(type) {
+          this.currentFilter = type;
+          const filterText = document.getElementById("filterText");
+          filterText.textContent =
+            type === "all" ? "All Types" : type.toUpperCase();
 
-                // Pagination
-                document.getElementById('prevBtn').addEventListener('click', () => this.goToPrevPage());
-                document.getElementById('nextBtn').addEventListener('click', () => this.goToNextPage());
+          document.getElementById("filterDropdown").classList.remove("show");
+          document.getElementById("filterArrow").classList.remove("rotate-180");
 
-                // Documentation button
-                document.getElementById('docBtn').addEventListener('click', () => {
-                    window.location.href = 'doc.html';
-                });
-            }
+          this.filterAPIs();
+        }
 
-            populateFilters() {
-                const types = [...new Set(this.apis.map(api => api.requestType))];
-                const filterOptions = document.getElementById('filterOptions');
-                
-                types.forEach(type => {
-                    const option = document.createElement('a');
-                    option.href = '#';
-                    option.className = 'filter-option block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100';
-                    option.dataset.type = type.toLowerCase();
-                    option.textContent = type;
-                    option.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        this.setFilter(type.toLowerCase());
-                    });
-                    filterOptions.appendChild(option);
-                });
-            }
+        filterAPIs() {
+          this.filteredApis = this.apis.filter((api) => {
+            const matchesSearch =
+              !this.searchQuery ||
+              api.apiName.toLowerCase().includes(this.searchQuery) ||
+              api.apiURL.toLowerCase().includes(this.searchQuery) ||
+              api.requestType.toLowerCase().includes(this.searchQuery);
 
-            setFilter(type) {
-                this.currentFilter = type;
-                const filterText = document.getElementById('filterText');
-                filterText.textContent = type === 'all' ? 'All Types' : type.toUpperCase();
-                
-                document.getElementById('filterDropdown').classList.remove('show');
-                document.getElementById('filterArrow').classList.remove('rotate-180');
-                
-                this.filterAPIs();
-            }
+            const matchesFilter =
+              this.currentFilter === "all" ||
+              api.requestType.toLowerCase() === this.currentFilter;
 
-            filterAPIs() {
-                this.filteredApis = this.apis.filter(api => {
-                    const matchesSearch = !this.searchQuery || 
-                        api.apiName.toLowerCase().includes(this.searchQuery) ||
-                        api.apiURL.toLowerCase().includes(this.searchQuery) ||
-                        api.requestType.toLowerCase().includes(this.searchQuery);
-                    
-                    const matchesFilter = this.currentFilter === 'all' || 
-                        api.requestType.toLowerCase() === this.currentFilter;
-                    
-                    return matchesSearch && matchesFilter;
-                });
+            return matchesSearch && matchesFilter;
+          });
 
-                this.currentPage = 1;
-                this.renderAPIs();
-            }
+          this.currentPage = 1;
+          this.renderAPIs();
+        }
 
-            goToPrevPage() {
-                if (this.currentPage > 1) {
-                    this.currentPage--;
-                    this.renderAPIs();
-                }
-            }
+        goToPrevPage() {
+          if (this.currentPage > 1) {
+            this.currentPage--;
+            this.renderAPIs();
+          }
+        }
 
-            goToNextPage() {
-                const totalPages = Math.ceil(this.filteredApis.length / this.itemsPerPage);
-                if (this.currentPage < totalPages) {
-                    this.currentPage++;
-                    this.renderAPIs();
-                }
-            }
+        goToNextPage() {
+          const totalPages = Math.ceil(
+            this.filteredApis.length / this.itemsPerPage
+          );
+          if (this.currentPage < totalPages) {
+            this.currentPage++;
+            this.renderAPIs();
+          }
+        }
 
-            renderAPIs() {
-                const container = document.getElementById('apiContainer');
-                const noResults = document.getElementById('noResults');
-                
-                if (this.filteredApis.length === 0) {
-                    container.classList.add('hidden');
-                    noResults.classList.remove('hidden');
-                    this.updatePaginationInfo();
-                    return;
-                }
+        renderAPIs() {
+          const container = document.getElementById("apiContainer");
+          const noResults = document.getElementById("noResults");
 
-                noResults.classList.add('hidden');
-                container.classList.remove('hidden');
+          if (this.filteredApis.length === 0) {
+            container.classList.add("hidden");
+            noResults.classList.remove("hidden");
+            this.updatePaginationInfo();
+            return;
+          }
 
-                const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-                const endIndex = startIndex + this.itemsPerPage;
-                const pageAPIs = this.filteredApis.slice(startIndex, endIndex);
+          noResults.classList.add("hidden");
+          container.classList.remove("hidden");
 
-                container.innerHTML = '';
-                pageAPIs.forEach((api, index) => {
-                    const card = this.createAPICard(api, startIndex + index);
-                    container.appendChild(card);
-                });
+          const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+          const endIndex = startIndex + this.itemsPerPage;
+          const pageAPIs = this.filteredApis.slice(startIndex, endIndex);
 
-                this.updatePaginationInfo();
-            }
+          container.innerHTML = "";
+          pageAPIs.forEach((api, index) => {
+            const card = this.createAPICard(api, startIndex + index);
+            container.appendChild(card);
+          });
 
-            createAPICard(api, index) {
-                const card = document.createElement('div');
-                card.className = 'bg-white rounded-lg shadow-custom border-custom card-hover card-enter';
-                card.style.animationDelay = `${index * 0.1}s`;
-                
-                const successRate = Math.round((parseInt(api.passedTests) / api.totalTests) * 100);
-                const statusColor = successRate === 100 ? 'green' : successRate >= 80 ? 'yellow' : 'red';
-                const statusBg = {
-                    green: 'bg-green-100 text-green-800',
-                    yellow: 'bg-yellow-100 text-yellow-800',
-                    red: 'bg-red-100 text-red-800'
-                }[statusColor];
+          this.updatePaginationInfo();
+        }
 
-                const methodColor = {
-                    'GET': 'bg-blue-100 text-blue-800',
-                    'POST': 'bg-green-100 text-green-800',
-                    'PUT': 'bg-orange-100 text-orange-800',
-                    'DELETE': 'bg-red-100 text-red-800',
-                    'PATCH': 'bg-purple-100 text-purple-800'
-                }[api.requestType] || 'bg-gray-100 text-gray-800';
+        createAPICard(api, index) {
+          const card = document.createElement("div");
+          card.className =
+            "bg-white rounded-lg shadow-custom border-custom card-hover card-enter";
+          card.style.animationDelay = `${index * 0.1}s`;
 
-                card.innerHTML = `
+          const successRate = Math.round(
+            (parseInt(api.passedTests) / api.totalTests) * 100
+          );
+          const statusColor =
+            successRate === 100
+              ? "green"
+              : successRate >= 80
+              ? "yellow"
+              : "red";
+          const statusBg = {
+            green: "bg-green-100 text-green-800",
+            yellow: "bg-yellow-100 text-yellow-800",
+            red: "bg-red-100 text-red-800",
+          }[statusColor];
+
+          const methodColor =
+            {
+              GET: "bg-blue-100 text-blue-800",
+              POST: "bg-green-100 text-green-800",
+              PUT: "bg-orange-100 text-orange-800",
+              DELETE: "bg-red-100 text-red-800",
+              PATCH: "bg-purple-100 text-purple-800",
+            }[api.requestType] || "bg-gray-100 text-gray-800";
+
+          card.innerHTML = `
                     <div class="p-6">
                         <div class="flex items-start justify-between mb-4">
                             <div>
-                                <h3 class="text-lg font-semibold text-gray-900 mb-2">${api.apiName}</h3>
+                                <h3 class="text-lg font-semibold text-gray-900 mb-2">${
+                                  api.apiName
+                                }</h3>
                                 <div class="flex items-center space-x-3 mb-3">
-                                    <span class="px-2 py-1 text-xs font-medium rounded-full ${methodColor}">${api.requestType}</span>
+                                    <span class="px-2 py-1 text-xs font-medium rounded-full ${methodColor}">${
+            api.requestType
+          }</span>
                                     <span class="px-2 py-1 text-xs font-medium rounded-full ${statusBg}">${successRate}% Pass Rate</span>
                                 </div>
                             </div>
                             <div class="text-right">
-                                <div class="text-sm text-gray-500">Tests: ${api.totalTests}</div>
-                                <div class="text-sm"><span class="text-green-600">${api.passedTests} passed</span> • <span class="text-red-600">${api.failedTests} failed</span></div>
+                                <div class="text-sm text-gray-500">Tests: ${
+                                  api.totalTests
+                                }</div>
+                                <div class="text-sm"><span class="text-green-600">${
+                                  api.passedTests
+                                } passed</span> • <span class="text-red-600">${
+            api.failedTests
+          } failed</span></div>
                             </div>
                         </div>
 
                         <div class="flex items-center justify-between mb-4">
                             <div class="flex-1 mr-3">
                                 <div class="text-sm text-gray-500 mb-1">Endpoint</div>
-                                <code class="text-sm text-gray-900 bg-gray-100 px-2 py-1 rounded break-all">${api.apiURL}</code>
+                                <code class="text-sm text-gray-900 bg-gray-100 px-2 py-1 rounded break-all">${
+                                  api.apiURL
+                                }</code>
                             </div>
                             <button 
                                 onclick="copyURL('${api.apiURL}', ${index})"
@@ -398,7 +564,9 @@
                             </button>
                         </div>
 
-                        ${api.bugs && api.bugs.length > 0 ? `
+                        ${
+                          api.bugs && api.bugs.length > 0
+                            ? `
                         <div class="border-t pt-4">
                             <button 
                                 onclick="toggleBugs(${index})"
@@ -411,7 +579,9 @@
                                 <span class="material-icons expand-animation" id="arrow-${index}">keyboard_arrow_down</span>
                             </button>
                             <div id="bugs-${index}" class="hidden mt-3 space-y-3">
-                                ${api.bugs.map(bug => `
+                                ${api.bugs
+                                  .map(
+                                    (bug) => `
                                     <div class="bg-red-50 border border-red-200 rounded-md p-3">
                                         <div class="text-sm font-medium text-red-800 mb-2">${bug.bugDesc}</div>
                                         <div class="space-y-1">
@@ -419,96 +589,110 @@
                                             <div class="text-xs text-red-700"><strong>Actual:</strong> ${bug.actual}</div>
                                         </div>
                                     </div>
-                                `).join('')}
+                                `
+                                  )
+                                  .join("")}
                             </div>
                         </div>
-                        ` : ''}
+                        `
+                            : ""
+                        }
                     </div>
                 `;
 
-                return card;
-            }
-
-            updatePaginationInfo() {
-                const totalPages = Math.ceil(this.filteredApis.length / this.itemsPerPage);
-                document.getElementById('currentPage').textContent = this.currentPage;
-                document.getElementById('totalPages').textContent = totalPages || 1;
-                
-                document.getElementById('prevBtn').disabled = this.currentPage === 1;
-                document.getElementById('nextBtn').disabled = this.currentPage >= totalPages;
-                
-                document.getElementById('prevBtn').classList.toggle('opacity-50', this.currentPage === 1);
-                document.getElementById('nextBtn').classList.toggle('opacity-50', this.currentPage >= totalPages);
-            }
+          return card;
         }
 
-        // Global functions
-        function copyURL(url, index) {
-            navigator.clipboard.writeText(url).then(() => {
-                const btn = document.getElementById(`copyBtn-${index}`);
-                const icon = btn.querySelector('.material-icons');
-                const originalText = icon.textContent;
-                
-                // Add success state
-                icon.textContent = 'check';
-                icon.style.color = '#10b981';
-                icon.classList.add('success-tick');
-                btn.title = 'Copied!';
-                
-                setTimeout(() => {
-                    icon.textContent = originalText;
-                    icon.style.color = '';
-                    icon.classList.remove('success-tick');
-                    btn.title = 'Copy URL';
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy URL:', err);
-                // Fallback for browsers that don't support clipboard API
-                const textArea = document.createElement('textarea');
-                textArea.value = url;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                
-                const btn = document.getElementById(`copyBtn-${index}`);
-                const icon = btn.querySelector('.material-icons');
-                icon.textContent = 'check';
-                icon.style.color = '#10b981';
-                setTimeout(() => {
-                    icon.textContent = 'content_copy';
-                    icon.style.color = '';
-                }, 2000);
-            });
+        updatePaginationInfo() {
+          const totalPages = Math.ceil(
+            this.filteredApis.length / this.itemsPerPage
+          );
+          document.getElementById("currentPage").textContent = this.currentPage;
+          document.getElementById("totalPages").textContent = totalPages || 1;
+
+          document.getElementById("prevBtn").disabled = this.currentPage === 1;
+          document.getElementById("nextBtn").disabled =
+            this.currentPage >= totalPages;
+
+          document
+            .getElementById("prevBtn")
+            .classList.toggle("opacity-50", this.currentPage === 1);
+          document
+            .getElementById("nextBtn")
+            .classList.toggle("opacity-50", this.currentPage >= totalPages);
         }
+      }
 
-        function toggleBugs(index) {
-            const bugsDiv = document.getElementById(`bugs-${index}`);
-            const arrow = document.getElementById(`arrow-${index}`);
-            
-            if (bugsDiv.classList.contains('hidden')) {
-                bugsDiv.classList.remove('hidden');
-                bugsDiv.classList.add('fade-in');
-                arrow.style.transform = 'rotate(180deg)';
-            } else {
-                bugsDiv.classList.add('hidden');
-                bugsDiv.classList.remove('fade-in');
-                arrow.style.transform = 'rotate(0deg)';
-            }
+      // Global functions
+      function copyURL(url, index) {
+        navigator.clipboard
+          .writeText(url)
+          .then(() => {
+            const btn = document.getElementById(`copyBtn-${index}`);
+            const icon = btn.querySelector(".material-icons");
+            const originalText = icon.textContent;
+
+            // Add success state
+            icon.textContent = "check";
+            icon.style.color = "#10b981";
+            icon.classList.add("success-tick");
+            btn.title = "Copied!";
+
+            setTimeout(() => {
+              icon.textContent = originalText;
+              icon.style.color = "";
+              icon.classList.remove("success-tick");
+              btn.title = "Copy URL";
+            }, 2000);
+          })
+          .catch((err) => {
+            console.error("Failed to copy URL:", err);
+            // Fallback for browsers that don't support clipboard API
+            const textArea = document.createElement("textarea");
+            textArea.value = url;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+
+            const btn = document.getElementById(`copyBtn-${index}`);
+            const icon = btn.querySelector(".material-icons");
+            icon.textContent = "check";
+            icon.style.color = "#10b981";
+            setTimeout(() => {
+              icon.textContent = "content_copy";
+              icon.style.color = "";
+            }, 2000);
+          });
+      }
+
+      function toggleBugs(index) {
+        const bugsDiv = document.getElementById(`bugs-${index}`);
+        const arrow = document.getElementById(`arrow-${index}`);
+
+        if (bugsDiv.classList.contains("hidden")) {
+          bugsDiv.classList.remove("hidden");
+          bugsDiv.classList.add("fade-in");
+          arrow.style.transform = "rotate(180deg)";
+        } else {
+          bugsDiv.classList.add("hidden");
+          bugsDiv.classList.remove("fade-in");
+          arrow.style.transform = "rotate(0deg)";
         }
+      }
 
-        // Initialize dashboard
-        document.addEventListener('DOMContentLoaded', () => {
-            new APIDashboard();
-        });
+      // Initialize dashboard
+      document.addEventListener("DOMContentLoaded", () => {
+        new APIDashboard();
+      });
 
-        // Add filter option click handlers
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('filter-option')) {
-                e.preventDefault();
-                // This will be handled by the event listeners set up in populateFilters()
-            }
-        });
+      // Add filter option click handlers
+      document.addEventListener("click", (e) => {
+        if (e.target.classList.contains("filter-option")) {
+          e.preventDefault();
+          // This will be handled by the event listeners set up in populateFilters()
+        }
+      });
     </script>
-</body>
+  </body>
 </html>
