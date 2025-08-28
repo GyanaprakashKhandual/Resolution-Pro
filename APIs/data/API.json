@@ -58,5 +58,14 @@
                 "actual": "It fetches the data but takes more than 10 seconds"
             }
         ]
+    },
+    {
+        "apiName": "Customer Maintenance API",
+        "requestType": "GET",
+        "apiURL": "https://cdfwasmk2m.us-east-1.awsapprunner.com/v1/agenda-tracker",
+        "totalTests": 4,
+        "passedTests": "4",
+        "failedTests": "0",
+        "bugs": []
     }
 ]
