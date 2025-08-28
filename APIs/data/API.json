@@ -1,0 +1,17 @@
+[
+    {
+        "apiName": "Role API",
+        "requestType": "GET",
+        "apiURL": "https://cdfwasmk2m.us-east-1.awsapprunner.com/v1/role",
+        "totalTests": 5,
+        "passedTests": "4",
+        "failedTests": "1",
+        "bugs": [
+            {
+                "bugDesc": "Verifies API returns empty or valid data structure when no roles exist",
+                "expected": "Handles gracefully with empty results or valid JSON",
+                "actual": "Breaks with null pointer or malformed response"
+            }
+        ]
+    }
+]
