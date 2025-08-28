@@ -28,5 +28,20 @@
                 "actual": "Breaks with null pointer or malformed response"
             }
         ]
+    },
+    {
+        "apiName": "Customer Maintenance API",
+        "requestType": "GET",
+        "apiURL": "https://cdfwasmk2m.us-east-1.awsapprunner.com/v1/customer-maintenance",
+        "totalTests": 5,
+        "passedTests": "4",
+        "failedTests": "1",
+        "bugs": [
+            {
+                "bugDesc": "Verifies API returns data within acceptable response time under load",
+                "expected": "This API should fetch the data within 10 seconds",
+                "actual": "It fetchhes the data but takes more than 10 seconds"
+            }
+        ]
     }
 ]
