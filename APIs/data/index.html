@@ -219,48 +219,6 @@
                     document.getElementById('apiContainer').classList.remove('hidden');
                 } catch (error) {
                     console.error('Failed to load API data:', error);
-                    // Use sample data for demonstration
-                    this.apis = [
-                        {
-                            "apiName": "Role API",
-                            "requestType": "GET",
-                            "apiURL": "https://cdfwasmk2m.us-east-1.awsapprunner.com/v1/role",
-                            "totalTests": 5,
-                            "passedTests": "4",
-                            "failedTests": "1",
-                            "bugs": [
-                                {
-                                    "bugDesc": "Verifies API returns empty or valid data structure when no roles exist",
-                                    "expected": "Handles gracefully with empty results or valid JSON",
-                                    "actual": "Breaks with null pointer or malformed response"
-                                }
-                            ]
-                        },
-                        {
-                            "apiName": "User Authentication API",
-                            "requestType": "POST",
-                            "apiURL": "https://api.example.com/v1/auth/login",
-                            "totalTests": 8,
-                            "passedTests": "7",
-                            "failedTests": "1",
-                            "bugs": [
-                                {
-                                    "bugDesc": "Password validation fails for special characters",
-                                    "expected": "Should accept passwords with special characters",
-                                    "actual": "Returns validation error for valid passwords"
-                                }
-                            ]
-                        },
-                        {
-                            "apiName": "Product Catalog API",
-                            "requestType": "GET",
-                            "apiURL": "https://api.example.com/v1/products",
-                            "totalTests": 12,
-                            "passedTests": "12",
-                            "failedTests": "0",
-                            "bugs": []
-                        }
-                    ];
                     this.filteredApis = [...this.apis];
                     document.getElementById('loading').classList.add('hidden');
                     document.getElementById('apiContainer').classList.remove('hidden');
