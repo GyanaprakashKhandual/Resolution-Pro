@@ -45,7 +45,7 @@
         ]
     },
     {
-        "apiName": "Customer Maintenance API",
+        "apiName": "Circular Resolution API",
         "requestType": "GET",
         "apiURL": "https://cdfwasmk2m.us-east-1.awsapprunner.com/v1/circular-resolution",
         "totalTests": 5,
@@ -60,7 +60,7 @@
         ]
     },
     {
-        "apiName": "Customer Maintenance API",
+        "apiName": "Agenda Tracker API",
         "requestType": "GET",
         "apiURL": "https://cdfwasmk2m.us-east-1.awsapprunner.com/v1/agenda-tracker",
         "totalTests": 4,
@@ -69,7 +69,7 @@
         "bugs": []
     },
     {
-        "apiName": "Customer Maintenance API",
+        "apiName": "Compliance Tracker API",
         "requestType": "GET",
         "apiURL": "https://cdfwasmk2m.us-east-1.awsapprunner.com/v1/compliance-tracker",
         "totalTests": 3,
@@ -78,7 +78,7 @@
         "bugs": []
     },
     {
-        "apiName": "Customer Maintenance API",
+        "apiName": "Share Holder Meeting API",
         "requestType": "GET",
         "apiURL": "https://cdfwasmk2m.us-east-1.awsapprunner.com/v1/shareholder-meeting",
         "totalTests": 3,

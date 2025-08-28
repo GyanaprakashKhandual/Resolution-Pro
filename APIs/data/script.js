@@ -166,84 +166,43 @@ class APIDashboard {
 
     createAPICard(api, index) {
         const card = document.createElement("div");
-        card.className =
-            "bg-white rounded-lg border-custom card-hover card-enter";
+        card.className = "bg-white rounded-lg border-custom card-hover card-enter";
         card.style.animationDelay = `${index * 0.1}s`;
 
-        const successRate = Math.round(
-            (parseInt(api.passedTests) / api.totalTests) * 100
-        );
-        const statusColor =
-            successRate === 100 ? "green" : successRate >= 80 ? "yellow" : "red";
+        const successRate = Math.round((parseInt(api.passedTests) / api.totalTests) * 100);
+        const statusColor = successRate === 100 ? "green" : successRate >= 80 ? "yellow" : "red";
         const statusBg = {
             green: "bg-green-100 text-green-800",
             yellow: "bg-yellow-100 text-yellow-800",
             red: "bg-red-100 text-red-800",
         }[statusColor];
 
-        const methodColor =
-            {
-                GET: "bg-blue-100 text-blue-800",
-                POST: "bg-green-100 text-green-800",
-                PUT: "bg-orange-100 text-orange-800",
-                DELETE: "bg-red-100 text-red-800",
-                PATCH: "bg-purple-100 text-purple-800",
-            }[api.requestType] || "bg-gray-100 text-gray-800";
+        const methodColor = {
+            GET: "bg-blue-100 text-blue-800",
+            POST: "bg-green-100 text-green-800",
+            PUT: "bg-orange-100 text-orange-800",
+            DELETE: "bg-red-100 text-red-800",
+            PATCH: "bg-purple-100 text-purple-800",
+        }[api.requestType] || "bg-gray-100 text-gray-800";
 
-        card.innerHTML = `
-                    <div class="p-6">
-                        <div class="flex items-start justify-between mb-4">
-                            <div>
-                                <h3 class="text-lg font-semibold text-gray-900 mb-2">${api.apiName
-            }</h3>
-                                <div class="flex items-center space-x-3 mb-3">
-                                    <span class="px-2 py-1 text-xs font-medium rounded-full ${methodColor}">${api.requestType
-            }</span>
-                                    <span class="px-2 py-1 text-xs font-medium rounded-full ${statusBg}">${successRate}% Pass Rate</span>
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-sm text-gray-500">Tests: ${api.totalTests
-            }</div>
-                                <div class="text-sm"><span class="text-green-600">${api.passedTests
-            } passed</span> • <span class="text-red-600">${api.failedTests
-            } failed</span></div>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex-1 mr-3">
-                                <div class="text-sm text-gray-500 mb-1">Endpoint</div>
-                                <code class="text-sm text-gray-900 bg-gray-100 px-2 py-1 rounded break-all">${api.apiURL
-            }</code>
-                            </div>
-                            <button 
-                                onclick="copyURL('${api.apiURL}', ${index})"
-                                class="flex-shrink-0 p-2 text-gray-400 hover:text-gray-600 transition-colors btn-hover"
-                                id="copyBtn-${index}"
-                                title="Copy URL"
-                            >
-                                <span class="material-icons text-sm">content_copy</span>
-                            </button>
-                        </div>
-
-                        ${api.bugs && api.bugs.length > 0
-                ? `
-                        <div class="border-t pt-4">
-                            <button 
-                                onclick="toggleBugs(${index})"
-                                class="flex items-center justify-between w-full text-left text-sm font-medium text-gray-700 hover:text-gray-900"
-                            >
-                                <span class="flex items-center">
-                                    <span class="material-icons text-red-500 mr-2">bug_report</span>
-                                    View Bug Details (${api.bugs.length})
-                                </span>
-                                <span class="material-icons expand-animation" id="arrow-${index}">keyboard_arrow_down</span>
-                            </button>
-                            <div id="bugs-${index}" class="hidden mt-3 space-y-3">
-                                ${api.bugs
-                    .map(
-                        (bug) => `
+        let bugsSection = "";
+        if (api.bugs && api.bugs.length > 0) {
+            bugsSection = `
+                <div class="border-t pt-4">
+                    <button 
+                        onclick="toggleBugs(${index})"
+                        class="flex items-center justify-between w-full text-left text-sm font-medium text-gray-700 hover:text-gray-900"
+                    >
+                        <span class="flex items-center">
+                            <span class="material-icons text-red-500 mr-2">bug_report</span>
+                            View Bug Details (${api.bugs.length})
+                        </span>
+                        <span class="material-icons expand-animation" id="arrow-${index}">keyboard_arrow_down</span>
+                    </button>
+                    <div id="bugs-${index}" class="hidden mt-3 space-y-3">
+                        ${api.bugs
+                            .map(
+                                (bug) => `
                                     <div class="bg-red-50 border border-red-200 rounded-md p-3">
                                         <div class="text-sm font-medium text-red-800 mb-2">${bug.bugDesc}</div>
                                         <div class="space-y-1">
@@ -252,15 +211,57 @@ class APIDashboard {
                                         </div>
                                     </div>
                                 `
-                    )
-                    .join("")}
-                            </div>
-                        </div>
-                        `
-                : ""
-            }
+                            )
+                            .join("")}
                     </div>
-                `;
+                </div>
+            `;
+        } else if (successRate === 100) {
+            // All tests passed, show a beautiful card
+            bugsSection = `
+                <div class="border-t pt-4 flex flex-col items-center justify-center">
+                    <div class="flex flex-col items-center justify-center py-4">
+                        <span class="material-icons text-green-500 text-6xl mb-2" style="font-size: 3.5rem;">check_circle</span>
+                        <div class="text-lg font-semibold text-green-700">All Tests Are Passed</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        card.innerHTML = `
+            <div class="p-6">
+                <div class="flex items-start justify-between mb-4">
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2">${api.apiName}</h3>
+                        <div class="flex items-center space-x-3 mb-3">
+                            <span class="px-2 py-1 text-xs font-medium rounded-full ${methodColor}">${api.requestType}</span>
+                            <span class="px-2 py-1 text-xs font-medium rounded-full ${statusBg}">${successRate}% Pass Rate</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-sm text-gray-500">Tests: ${api.totalTests}</div>
+                        <div class="text-sm"><span class="text-green-600">${api.passedTests} passed</span> • <span class="text-red-600">${api.failedTests} failed</span></div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex-1 mr-3">
+                        <div class="text-sm text-gray-500 mb-1">Endpoint</div>
+                        <code class="text-sm text-gray-900 bg-gray-100 px-2 py-1 rounded break-all">${api.apiURL}</code>
+                    </div>
+                    <button 
+                        onclick="copyURL('${api.apiURL}', ${index})"
+                        class="flex-shrink-0 p-2 text-gray-400 hover:text-gray-600 transition-colors btn-hover"
+                        id="copyBtn-${index}"
+                        title="Copy URL"
+                    >
+                        <span class="material-icons text-sm">content_copy</span>
+                    </button>
+                </div>
+
+                ${bugsSection}
+            </div>
+        `;
 
         return card;
     }
