@@ -67,5 +67,23 @@
         "passedTests": "4",
         "failedTests": "0",
         "bugs": []
+    },
+    {
+        "apiName": "Customer Maintenance API",
+        "requestType": "GET",
+        "apiURL": "https://cdfwasmk2m.us-east-1.awsapprunner.com/v1/compliance-tracker",
+        "totalTests": 3,
+        "passedTests": "3",
+        "failedTests": "0",
+        "bugs": []
+    },
+    {
+        "apiName": "Customer Maintenance API",
+        "requestType": "GET",
+        "apiURL": "https://cdfwasmk2m.us-east-1.awsapprunner.com/v1/shareholder-meeting",
+        "totalTests": 3,
+        "passedTests": "3",
+        "failedTests": "0",
+        "bugs": []
     }
 ]
