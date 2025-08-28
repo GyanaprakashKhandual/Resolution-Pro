@@ -1,52 +1,3 @@
-// Sample data (in real app, this would come from fetch('/API.json'))
-const sampleData = [
-    {
-        "status": { "code": 200, "success_rate": "99%", "passed": 2460, "failed": 3 },
-        "body_validation": { "check": "not_empty", "success_rate": "99%", "passed": 2460, "failed": 3 },
-        "performance_metrics": {
-            "http_request_duration": {
-                "average": "38.33ms", "minimum": "0s", "median": "38.98ms", "maximum": "334.15ms",
-                "percentile_90": "40.8ms", "percentile_95": "41.59ms"
-            }
-        },
-        "test_configuration": {
-            "page_name": "Board Meeting page",
-            "page_url": "https://main.d1kd8ht335wv6p.amplifyapp.com/meeting",
-            "virtual_users": 100, "test_duration": "30s"
-        }
-    },
-    {
-        "status": { "code": 200, "success_rate": "99%", "passed": 2382, "failed": 7 },
-        "body_validation": { "check": "not_empty", "success_rate": "99%", "passed": 2460, "failed": 7 },
-        "performance_metrics": {
-            "http_request_duration": {
-                "average": "43.31ms", "minimum": "0s", "median": "42.35ms", "maximum": "84.74ms",
-                "percentile_90": "47.42ms", "percentile_95": "49.8ms"
-            }
-        },
-        "test_configuration": {
-            "page_name": "Home page",
-            "page_url": "https://main.d1kd8ht335wv6p.amplifyapp.com",
-            "virtual_users": 100, "test_duration": "30s"
-        }
-    },
-    {
-        "status": { "code": 200, "success_rate": "99%", "passed": 2468, "failed": 4 },
-        "body_validation": { "check": "not_empty", "success_rate": "99%", "passed": 2468, "failed": 4 },
-        "performance_metrics": {
-            "http_request_duration": {
-                "average": "44.46ms", "minimum": "0s", "median": "42.08ms", "maximum": "332.77ms",
-                "percentile_90": "48.79ms", "percentile_95": "52.73ms"
-            }
-        },
-        "test_configuration": {
-            "page_name": "Committee Meeting page",
-            "page_url": "https://main.d1kd8ht335wv6p.amplifyapp.com/committee-meeting",
-            "virtual_users": 100, "test_duration": "30s"
-        }
-    }
-];
-
 let allData = [];
 let filteredData = [];
 let currentPage = 1;
@@ -56,46 +7,43 @@ const itemsPerPage = 16;
 function initTheme() {
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
+    let isDark = false;
     if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
         document.documentElement.classList.add('dark');
-        document.getElementById('themeIcon').textContent = 'light_mode';
+        isDark = true;
     } else {
         document.documentElement.classList.remove('dark');
-        document.getElementById('themeIcon').textContent = 'dark_mode';
+        isDark = false;
     }
+    document.getElementById('themeIcon').textContent = isDark ? 'light_mode' : 'dark_mode';
 }
 
 function toggleTheme() {
     const isDark = document.documentElement.classList.contains('dark');
     if (isDark) {
         document.documentElement.classList.remove('dark');
-        document.getElementById('themeIcon').textContent = 'dark_mode';
         localStorage.setItem('theme', 'light');
     } else {
         document.documentElement.classList.add('dark');
-        document.getElementById('themeIcon').textContent = 'light_mode';
         localStorage.setItem('theme', 'dark');
     }
+    // Always update the icon after toggling
+    document.getElementById('themeIcon').textContent = document.documentElement.classList.contains('dark') ? 'light_mode' : 'dark_mode';
 }
 
 // Data loading and processing
 async function loadData() {
     try {
-        // In real implementation, uncomment this:
-        // const response = await fetch('/API.json');
-        // allData = await response.json();
-
-        // For demo, using sample data:
-        allData = sampleData;
+        const response = await fetch('./API.json');
+        allData = await response.json();
         filteredData = [...allData];
         renderTable();
         updatePagination();
     } catch (error) {
         console.error('Error loading data:', error);
-        // Fallback to sample data
-        allData = sampleData;
-        filteredData = [...allData];
+        // Optionally, show an error message to the user or leave the table empty
+        allData = [];
+        filteredData = [];
         renderTable();
         updatePagination();
     }
