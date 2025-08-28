@@ -20,7 +20,7 @@ class APIDashboard {
 
     async loadData() {
         try {
-            const response = await fetch("./API.json");
+            const response = await fetch("https://avidus-interactive-test-data.onrender.com/api/resolution-pro");
             this.apis = await response.json();
             this.filteredApis = [...this.apis];
             document.getElementById("loading").classList.add("hidden");
