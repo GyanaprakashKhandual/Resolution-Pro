@@ -16,7 +16,7 @@ export const options = {
   },
 };
 
-const URL = 'https://main.d1kd8ht335wv6p.amplifyapp.com';
+const URL = 'https://main.d1kd8ht335wv6p.amplifyapp.com/committee-meeting';
 
 export default function () {
   const res = http.get(URL, {

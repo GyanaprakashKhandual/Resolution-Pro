@@ -1,3 +1,4 @@
+// loadtest-constant-100.js
 import http from 'k6/http';
 import { check, sleep } from 'k6';
 
@@ -16,7 +17,7 @@ export const options = {
   },
 };
 
-const URL = 'https://main.d1kd8ht335wv6p.amplifyapp.com';
+const URL = 'https://main.d1kd8ht335wv6p.amplifyapp.com/meeting';
 
 export default function () {
   const res = http.get(URL, {

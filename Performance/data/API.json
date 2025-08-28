@@ -1,0 +1,92 @@
+[
+  {
+    "status": {
+      "code": 200,
+      "success_rate": "99%",
+      "passed": 2460,
+      "failed": 3
+    },
+    "body_validation": {
+      "check": "not_empty",
+      "success_rate": "99%",
+      "passed": 2460,
+      "failed": 3
+    },
+    "performance_metrics": {
+      "http_request_duration": {
+        "average": "38.33ms",
+        "minimum": "0s",
+        "median": "38.98ms",
+        "maximum": "334.15ms",
+        "percentile_90": "40.8ms",
+        "percentile_95": "41.59ms"
+      }
+    },
+    "test_configuration": {
+      "page_name": "Board Meeting page",
+      "page_url": "https://main.d1kd8ht335wv6p.amplifyapp.com/meeting",
+      "virtual_users": 100,
+      "test_duration": "30s"
+    }
+  },
+    {
+    "status": {
+      "code": 200,
+      "success_rate": "99%",
+      "passed": 2382,
+      "failed": 7
+    },
+    "body_validation": {
+      "check": "not_empty",
+      "success_rate": "99%",
+      "passed": 2460,
+      "failed": 7
+    },
+    "performance_metrics": {
+      "http_request_duration": {
+        "average": "43.31ms",
+        "minimum": "0s",
+        "median": "42.35ms",
+        "maximum": "84.74ms",
+        "percentile_90": "47.42ms",
+        "percentile_95": "49.8ms"
+      }
+    },
+    "test_configuration": {
+      "page_name": "Home page",
+      "page_url": "https://main.d1kd8ht335wv6p.amplifyapp.com",
+      "virtual_users": 100,
+      "test_duration": "30s"
+    }
+  },
+      {
+    "status": {
+      "code": 200,
+      "success_rate": "99%",
+      "passed": 2468,
+      "failed": 4
+    },
+    "body_validation": {
+      "check": "not_empty",
+      "success_rate": "99%",
+      "passed": 2468,
+      "failed": 4
+    },
+    "performance_metrics": {
+      "http_request_duration": {
+        "average": "44.46ms",
+        "minimum": "0s",
+        "median": "42.08ms",
+        "maximum": "332.77ms",
+        "percentile_90": "48.79ms",
+        "percentile_95": "52.73ms"
+      }
+    },
+    "test_configuration": {
+      "page_name": "Committee Meeting page",
+      "page_url": "https://main.d1kd8ht335wv6p.amplifyapp.com/committee-meeting",
+      "virtual_users": 100,
+      "test_duration": "30s"
+    }
+  }
+]
