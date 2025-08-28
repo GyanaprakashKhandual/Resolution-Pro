@@ -13,6 +13,26 @@
     transition: opacity 0.3s, visibility 0.3s;
 }
 
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    color: #1f2937;
+}
+
+::-webkit-scrollbar-track {
+    background: #f3f4f6;
+}
+
+* {
+    user-select: none;
+}
+
 .tooltip-parent:hover .tooltip {
     visibility: visible;
     opacity: 1;
